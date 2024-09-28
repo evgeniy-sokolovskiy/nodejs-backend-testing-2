@@ -32,9 +32,16 @@ describe('PostsService', () => {
       // реализуйте тест-кейс
       const LIMIT = 3
       const SKIP = 3
+      const diffPostsLength = posts.length - SKIP
       const found = postsService.findMany({skip: SKIP, limit: LIMIT});
-      expect(found.length).toEqual(LIMIT);
-      expect(found).toEqual(posts.slice(SKIP, LIMIT));
+      expect(found.length).toEqual(diffPostsLength);
+      expect(found).toEqual(posts
+          .map((post, index) => ({
+        ...post,
+        id: String(index+1)
+      }))
+          .slice(SKIP)
+          .slice(0, LIMIT));
     });
 
     // реализуйте недостающие тест-кейсы
